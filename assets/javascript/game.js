@@ -1,10 +1,16 @@
 var wordBank = ["dragon", "princess", "knight", "castle", "sword", "lance", "tournament", "wizard", "magic", "monster"];
-var selectedWord = wordBank[[Math.floor(Math.random() * wordBank.length)]]
-console.log(selectedWord);
 var guessesRemaining = 12;
 var guessedLetters = [];
 var displayedWord = "";
+var wins = 0;
+var losses = 0;
+function selectWord() {
+    var randomWord = wordBank[[Math.floor(Math.random() * wordBank.length)]];
+    return randomWord;
+}
 
+var selectedWord = selectWord();
+console.log(selectedWord);
 //need to keep track of and display letters guessed, number of guesses remaining, number of wins
 //compare guessed letter to letters in word & display matches in correct spot
 ///display a series of _ to mark number of letters (underlines? or borders? way to make it a 'reveal' of letters vid hide/show?)
@@ -12,11 +18,25 @@ var displayedWord = "";
 //use modals instead of alerts?
 var wordDiv = document.getElementById("wordDisplay");
 
-for (var i = 0; i < selectedWord.length; i++) {
-    displayedWord = displayedWord + "_";
-    wordDiv.textContent = displayedWord;
+function setDisplayWord() {
+    for (var i = 0; i < selectedWord.length; i++) {
+        displayedWord = displayedWord + "_";
+        wordDiv.textContent = displayedWord;
 
+    }
 }
+
+setDisplayWord();
+
+function newRound(){
+    displayedWord = "";
+    selectedWord = selectWord();
+    setDisplayWord();
+    guessesRemaining = 12;
+    guessedLetters = [];
+    console.log(selectedWord);
+}
+
 
 //fucnction to replace the underscore in the display string
 function setCharAt(str, index, chr) {
@@ -32,7 +52,6 @@ document.onkeyup = function (event) {
     if (userGuess.match(/[a-z]/i)) {
         //check if letter already guessed
         if (guessedLetters.indexOf(userGuess) === -1) {
-            //add logic for when guessesRemaining hits 0
             if (selectedWord.includes(userGuess)) {
                 for (var i = 0; i < selectedWord.length; i++) {
                     if (userGuess === selectedWord.charAt(i)) {
@@ -58,5 +77,16 @@ document.onkeyup = function (event) {
     }
     else {
         console.log("Not a valid guess!");
+    }
+    //check for win/loss conditions & update
+    if (displayedWord === selectedWord) {
+        wins++;
+        console.log("You're a winner! You've won " + wins + " games!");
+        newRound();
+    }
+    else if (guessesRemaining === 0) {
+        losses++;
+        console.log("You lost, better luck next time! You have " + losses + " losses.");
+        newRound();
     }
 }
