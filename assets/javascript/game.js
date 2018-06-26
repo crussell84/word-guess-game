@@ -19,38 +19,44 @@ for (var i = 0; i < selectedWord.length; i++) {
 }
 
 //fucnction to replace the underscore in the display string
-function setCharAt(str,index,chr) {
-	if(index > str.length-1) return str;
-	return str.substr(0,index) + chr + str.substr(index+1);
+function setCharAt(str, index, chr) {
+    if (index > str.length - 1) return str;
+    return str.substr(0, index) + chr + str.substr(index + 1);
 }
 
 document.onkeyup = function (event) {
     var userGuess = event.key;
 
     userGuess = userGuess.toLowerCase();
-if (userGuess.match(/[a-z]/i)) {
-    //add logic to check if keypressed is letter
-    //add logic to check if letter already guessed
-    //add logic for when guessesRemaining hits 0
-    if (selectedWord.includes(userGuess)) {
-        for (var i = 0; i < selectedWord.length; i++) {
-            if (userGuess === selectedWord.charAt(i)) {
-                displayedWord = setCharAt(displayedWord, i, userGuess);
-                wordDiv.textContent = displayedWord;
+    //check if guess is letter
+    if (userGuess.match(/[a-z]/i)) {
+        //check if letter already guessed
+        if (guessedLetters.indexOf(userGuess) === -1) {
+            //add logic for when guessesRemaining hits 0
+            if (selectedWord.includes(userGuess)) {
+                for (var i = 0; i < selectedWord.length; i++) {
+                    if (userGuess === selectedWord.charAt(i)) {
+                        displayedWord = setCharAt(displayedWord, i, userGuess);
+                        wordDiv.textContent = displayedWord;
+                    }
+                }
+                guessesRemaining--;
+                guessedLetters.push(userGuess);
             }
+            else {
+                //update display of guessed letters & guesses remaining
+                guessesRemaining--;
+                guessedLetters.push(userGuess);
+            }
+
+            console.log(guessedLetters);
         }
-        guessesRemaining--;
-        guessedLetters.push(userGuess);
+        else {
+            console.log("You've guessed that already!");
+        }
+
     }
     else {
-        //update display of guessed letters & guesses remaining
-        guessesRemaining--;
-        guessedLetters.push(userGuess);
+        console.log("Not a valid guess!");
     }
-
-    console.log(guessedLetters);
-}
-else {
-    console.log("Not a valid guess!")
-}
 }
