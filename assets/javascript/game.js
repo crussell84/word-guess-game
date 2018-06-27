@@ -38,6 +38,7 @@ function setDisplayWord() {
 setDisplayWord();
 
 function newRound() {
+    document.getElementById("lastWord").innerHTML ="<h2>Last Round's Word: " + selectedWord +"</h2>";
     displayedWord = "";
     selectedWord = selectWord();
     setDisplayWord();
@@ -58,7 +59,7 @@ document.onkeyup = function (event) {
 
     userGuess = userGuess.toLowerCase();
     //check if guess is letter
-    if (userGuess.match(/[a-z]/i)) {
+    if (userGuess.match(/[a-z]/i) && userGuess.length == 1) {
         //check if letter already guessed
         if (guessedLetters.indexOf(userGuess) === -1) {
             if (selectedWord.includes(userGuess)) {
