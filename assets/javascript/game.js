@@ -9,6 +9,15 @@ function selectWord() {
     return randomWord;
 }
 
+function displayStats() {
+    document.getElementById("guessedLetters").textContent = "Guessed Letters: " + guessedLetters;
+    document.getElementById("guessesRemaining").textContent = "Guesses Remaining: " + guessesRemaining;
+    document.getElementById("wins").textContent = "Wins: " + wins;
+    document.getElementById("losses").textContent = "Losses: " + losses;
+}
+
+displayStats();
+
 var selectedWord = selectWord();
 console.log(selectedWord);
 //need to keep track of and display letters guessed, number of guesses remaining, number of wins
@@ -28,7 +37,7 @@ function setDisplayWord() {
 
 setDisplayWord();
 
-function newRound(){
+function newRound() {
     displayedWord = "";
     selectedWord = selectWord();
     setDisplayWord();
@@ -71,22 +80,23 @@ document.onkeyup = function (event) {
             console.log(guessedLetters);
         }
         else {
-            console.log("You've guessed that already!");
+            alert("You've guessed that already!");
         }
 
     }
     else {
-        console.log("Not a valid guess!");
+        alert("Not a valid guess!");
     }
     //check for win/loss conditions & update
     if (displayedWord === selectedWord) {
         wins++;
-        console.log("You're a winner! You've won " + wins + " games!");
+        alert("You're a winner! You've won " + wins + " games!");
         newRound();
     }
     else if (guessesRemaining === 0) {
         losses++;
-        console.log("You lost, better luck next time! You have " + losses + " losses.");
+        alert("You lost, better luck next time! You have " + losses + " losses.");
         newRound();
     }
+    displayStats();
 }
