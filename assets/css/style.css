@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Spirax');
 
-h1 {
+h1, #lastWord {
     font-family: 'Spirax', cursive;
 }
 
