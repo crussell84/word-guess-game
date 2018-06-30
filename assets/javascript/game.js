@@ -1,4 +1,4 @@
-var wordBank = ["dragon", "princess", "knight", "castle", "sword", "lance", "tournament", "wizard", "magic", "monster"];
+var wordBank = ["dragon", "elf", "orc", "dwarf", "princess", "knight", "castle", "sword", "lance", "tournament", "wizard", "magic", "monster"];
 var guessesRemaining = 12;
 var guessedLetters = [];
 var displayedWord = "";
@@ -17,14 +17,10 @@ function displayStats() {
 }
 
 displayStats();
-
+// choose inital word on page load
 var selectedWord = selectWord();
+//idiot proofing
 console.log(selectedWord);
-//need to keep track of and display letters guessed, number of guesses remaining, number of wins
-//compare guessed letter to letters in word & display matches in correct spot
-///display a series of _ to mark number of letters (underlines? or borders? way to make it a 'reveal' of letters vid hide/show?)
-//remove used words from bank?
-//use modals instead of alerts?
 var wordDiv = document.getElementById("wordDisplay");
 
 function setDisplayWord() {
@@ -34,7 +30,7 @@ function setDisplayWord() {
 
     }
 }
-
+//create the series of blanks
 setDisplayWord();
 
 function newRound() {
@@ -64,11 +60,13 @@ document.onkeyup = function (event) {
         if (guessedLetters.indexOf(userGuess) === -1) {
             if (selectedWord.includes(userGuess)) {
                 for (var i = 0; i < selectedWord.length; i++) {
+                    //replace the correct blank with the letter guessed
                     if (userGuess === selectedWord.charAt(i)) {
                         displayedWord = setCharAt(displayedWord, i, userGuess);
                         wordDiv.textContent = displayedWord;
                     }
                 }
+                //update display of guessed letters & guesses remaining
                 guessesRemaining--;
                 guessedLetters.push(userGuess);
             }
