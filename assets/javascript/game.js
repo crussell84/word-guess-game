@@ -4,6 +4,9 @@ var guessedLetters = [];
 var displayedWord = "";
 var wins = 0;
 var losses = 0;
+var selectedWord = selectWord();
+var wordDiv = document.getElementById("wordDisplay");
+
 function selectWord() {
     var randomWord = wordBank[[Math.floor(Math.random() * wordBank.length)]];
     return randomWord;
@@ -16,13 +19,6 @@ function displayStats() {
     document.getElementById("losses").textContent = "Losses: " + losses;
 }
 
-displayStats();
-// choose inital word on page load
-var selectedWord = selectWord();
-//idiot proofing
-console.log(selectedWord);
-var wordDiv = document.getElementById("wordDisplay");
-
 function setDisplayWord() {
     for (var i = 0; i < selectedWord.length; i++) {
         displayedWord = displayedWord + "_";
@@ -30,11 +26,9 @@ function setDisplayWord() {
 
     }
 }
-//create the series of blanks
-setDisplayWord();
 
 function newRound() {
-    document.getElementById("lastWord").innerHTML ="<h2>Last Round's Word: " + selectedWord +"</h2>";
+    document.getElementById("lastWord").innerHTML = "<h2>Last Round's Word: " + selectedWord + "</h2>";
     displayedWord = "";
     selectedWord = selectWord();
     setDisplayWord();
@@ -43,12 +37,20 @@ function newRound() {
     console.log(selectedWord);
 }
 
-
 //fucnction to replace the underscore in the display string
 function setCharAt(str, index, chr) {
     if (index > str.length - 1) return str;
     return str.substr(0, index) + chr + str.substr(index + 1);
 }
+
+// choose inital word on page load
+displayStats();
+
+//idiot proofing
+console.log(selectedWord);
+
+//create the series of blanks
+setDisplayWord();
 
 document.onkeyup = function (event) {
     var userGuess = event.key;
@@ -57,7 +59,8 @@ document.onkeyup = function (event) {
     //check if guess is letter
     if (userGuess.match(/[a-z]/i) && userGuess.length == 1) {
         //check if letter already guessed
-        if (guessedLetters.indexOf(userGuess) === -1) {
+        if (!guessedLetters.includes(userGuess)) {
+            //check if letter is in selected word
             if (selectedWord.includes(userGuess)) {
                 for (var i = 0; i < selectedWord.length; i++) {
                     //replace the correct blank with the letter guessed
@@ -66,22 +69,15 @@ document.onkeyup = function (event) {
                         wordDiv.textContent = displayedWord;
                     }
                 }
-                //update display of guessed letters & guesses remaining
-                guessesRemaining--;
-                guessedLetters.push(userGuess);
             }
-            else {
-                //update display of guessed letters & guesses remaining
-                guessesRemaining--;
-                guessedLetters.push(userGuess);
-            }
-
+            //update display of guessed letters & guesses remaining no matter if it's in the word or not
+            guessesRemaining--;
+            guessedLetters.push(userGuess);
             console.log(guessedLetters);
         }
         else {
             alert("You've guessed that already!");
         }
-
     }
     else {
         alert("Not a valid guess!");
