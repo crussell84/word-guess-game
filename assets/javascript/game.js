@@ -43,7 +43,6 @@ function setCharAt(str, index, chr) {
     return str.substr(0, index) + chr + str.substr(index + 1);
 }
 
-// choose inital word on page load
 displayStats();
 
 //idiot proofing
