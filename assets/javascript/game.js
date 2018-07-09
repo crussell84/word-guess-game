@@ -75,10 +75,12 @@ document.onkeyup = function (event) {
             console.log(guessedLetters);
         }
         else {
+            //alert if in the array of guessed letters
             alert("You've guessed that already!");
         }
     }
     else {
+        //alert if not a valid letter selection
         alert("Not a valid guess!");
     }
     //check for win/loss conditions & update
